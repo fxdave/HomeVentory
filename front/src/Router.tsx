@@ -2,6 +2,7 @@ import {Navigate, Route, Routes} from "react-router-dom";
 import React, {ReactElement} from "react";
 import {Boundary} from "@cuple/react";
 import {useAuth} from "services/useAuth";
+import {isBundledShell} from "services/shell";
 
 export const ROUTES = {
   LOGIN: "/login",
@@ -24,7 +25,9 @@ const withLoader = (element: ReactElement) => (
 
 export default function Router() {
   const auth = useAuth();
-  if (auth.isLoggedIn) {
+  // The app's bundled UI only picks the server; logging in happens on the
+  // server's copy of the UI.
+  if (auth.isLoggedIn && !isBundledShell) {
     return (
       <>
         <Routes>

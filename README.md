@@ -49,7 +49,9 @@ Update with `make prod-update`, stop with `make prod-stop`.
 
 ### Android app
 
-Requires the Android SDK.
+Get the APK from [Releases](https://github.com/fxdave/HomeVentory/releases). On first start it asks for your server's address (e.g. `http://192.168.0.10:3001`); after that it loads its screens from your server, so it always matches the server's version and updates with it. Only the thin native shell (QR scanner, printing, `davidhomeventory://` links) lives in the APK.
+
+To build it yourself (requires the Android SDK):
 
 ```sh
 make build-front-apk     # APK in front/android/app/build/outputs/apk/

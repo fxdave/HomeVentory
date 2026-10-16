@@ -3,28 +3,45 @@ import {styled} from "styled-system/jsx";
 import {useNavigate} from "react-router-dom";
 import {Navigation} from "modules/Common/Navigation";
 import {Scanner} from "@yudiel/react-qr-scanner";
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {Alert} from "@ui/Alert";
+import {Button} from "@ui/Button";
+import {hasShell, Shell} from "services/shell";
 
 export default function QRScannerPage() {
   const navigate = useNavigate();
   const [scannedData, setScannedData] = useState<string>("");
   const [error, setError] = useState<string>("");
 
-  const handleScan = (result: Array<{rawValue: string}>) => {
-    if (result && result.length > 0) {
-      const data = result[0].rawValue;
-      setScannedData(data);
-      setError("");
+  const handleText = (data: string) => {
+    setScannedData(data);
+    setError("");
 
-      // Check if it's a HomeVentory QR code
-      if (data.startsWith("davidhomeventory://")) {
-        const boxId = data.replace("davidhomeventory://", "");
-        // Navigate to the item
-        navigate(`/open-item/${boxId}`);
-      }
+    // Check if it's a HomeVentory QR code
+    if (data.startsWith("davidhomeventory://")) {
+      const boxId = data.replace("davidhomeventory://", "");
+      // Navigate to the item
+      navigate(`/open-item/${boxId}`);
     }
   };
+
+  const handleScan = (result: Array<{rawValue: string}>) => {
+    if (result && result.length > 0) handleText(result[0].rawValue);
+  };
+
+  // In the Android app the camera is native: the web scanner needs a secure
+  // origin, and a plain-http server on the LAN isn't one.
+  const scanNatively = () => {
+    Shell.scan()
+      .then(({text}) => text && handleText(text))
+      .catch(handleError);
+  };
+  const scanStarted = useRef(false);
+  useEffect(() => {
+    if (!hasShell || scanStarted.current) return;
+    scanStarted.current = true;
+    scanNatively();
+  }, []);
 
   const handleError = (err: unknown) => {
     console.error("QR Scanner Error:", err);
@@ -39,13 +56,17 @@ export default function QRScannerPage() {
     <Container>
       <Navigation />
       <Title>Scan a box</Title>
-      <ScannerWrapper>
-        <Scanner
-          onScan={handleScan}
-          onError={handleError}
-          styles={{container: {width: "100%"}}}
-        />
-      </ScannerWrapper>
+      {hasShell ? (
+        <Button onClick={scanNatively}>Scan</Button>
+      ) : (
+        <ScannerWrapper>
+          <Scanner
+            onScan={handleScan}
+            onError={handleError}
+            styles={{container: {width: "100%"}}}
+          />
+        </ScannerWrapper>
+      )}
       {error && <Alert severity="error">{error}</Alert>}
       {scannedData && !isSticker && (
         <Alert severity="warning">

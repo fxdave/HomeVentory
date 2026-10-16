@@ -1,1 +1,1 @@
-First F-Droid release. Updated to Capacitor 8 (Android 16 / API 36); the in-app QR scanner can now use the camera.
+First F-Droid release. The app now loads its screens from your HomeVentory server, so it always matches the server's version. Native QR scanner that also works with plain-http servers. Updated to Android 16 (API 36).

@@ -64,6 +64,19 @@ wrapper. If you bump Node, update `.nvmrc` **and** the F-Droid metadata.
 After the first submission, F-Droid's update checker picks up new `v*` tags on
 its own (`UpdateCheckMode: Tags`).
 
+## How the app updates
+
+The APK is a thin shell: after the user enters the server address it loads the
+UI from the HomeVentory server (like the Home Assistant and Jellyfin apps), and
+the server's PWA service worker keeps it current. So most changes ship by
+updating the server; a new APK is only needed when the native side changes
+(`ShellPlugin.java`, Capacitor plugins, manifest). The web UI feature-detects
+native features (`Capacitor.isPluginAvailable`), so a newer server still works
+in an older app.
+
+Mention this in the fdroiddata merge request: the app downloads its UI from the
+user's own server, not from a third party.
+
 ## First submission
 
 1. Do one release as above (`v1.0.0`).

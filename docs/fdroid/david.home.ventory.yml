@@ -35,7 +35,7 @@ Builds:
       - npx vite build
       - npx cap sync android
 
-AllowedAPKSigningKeys: <sha256 of your release certificate, lowercase, no colons>
+AllowedAPKSigningKeys: 715ad0e34e4ae75231cfaffc1c58570a92648f6667dddf61095c275bf981f76e
 
 AutoUpdateMode: Version
 UpdateCheckMode: Tags ^v[0-9.]+$

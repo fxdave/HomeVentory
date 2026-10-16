@@ -8,6 +8,7 @@ import {Alert} from "@ui/Alert";
 import {Button} from "@ui/Button";
 import {BrandSticker} from "modules/Common/BrandSticker";
 import {TextField} from "@ui/Input";
+import {hasShell, isBundledShell, Shell, withScheme} from "services/shell";
 
 type IFields = {
   target: string;
@@ -16,13 +17,21 @@ type IFields = {
 
 const API_TARGET_KEY = "API_TARGET";
 
+function defaultTarget() {
+  const saved = localStorage.getItem(API_TARGET_KEY);
+  if (saved) return saved;
+  // Served by the HomeVentory server itself: the API is on the same origin.
+  return isBundledShell ? "" : `${window.location.origin}/api`;
+}
+
 export default function LoginPage() {
-  const {handleSubmit, register, setError, setValue} = useForm<IFields>({
-    defaultValues: async () => ({
-      target: localStorage.getItem(API_TARGET_KEY) || "",
-      password: "",
-    }),
-  });
+  const {handleSubmit, register, setError, setValue, formState} =
+    useForm<IFields>({
+      defaultValues: async () => ({
+        target: defaultTarget(),
+        password: "",
+      }),
+    });
 
   useEffect(() => {
     if (window.location.href.includes("localhost:3000"))
@@ -31,7 +40,17 @@ export default function LoginPage() {
 
   const auth = useAuth();
   const navigate = useNavigate();
+  const rootError = formState.errors.root?.message;
   const onSubmit = handleSubmit(data => {
+    if (isBundledShell) {
+      const url = withScheme(data.target);
+      localStorage.setItem(API_TARGET_KEY, url);
+      // Restarts the app on the server's own copy of the UI, which logs in.
+      Shell.connect({url}).catch(e =>
+        setError("root", {message: e instanceof Error ? e.message : `${e}`}),
+      );
+      return;
+    }
     auth
       .login(data.target, data.password)
       .then(isSuccess => {
@@ -64,23 +83,40 @@ export default function LoginPage() {
         {!auth.isLoggedIn && auth.error && (
           <Alert severity="error">{auth.error}</Alert>
         )}
+        {isBundledShell && rootError && (
+          <Alert severity="error">{rootError}</Alert>
+        )}
         <TextField
           label="Server address"
           {...register("target")}
           name="target"
           inputMode="url"
           autoComplete="url"
-          helperText="For example http://192.168.0.10:3001/api"
+          helperText={
+            isBundledShell
+              ? "For example http://192.168.0.10:3001"
+              : "For example http://192.168.0.10:3001/api"
+          }
         />
-        <TextField
-          label="Password"
-          helperText="First time? The password you enter here becomes the server password."
-          {...register("password")}
-          name="password"
-          type="password"
-          autoComplete="current-password"
-        />
+        {!isBundledShell && (
+          <TextField
+            label="Password"
+            helperText="First time? The password you enter here becomes the server password."
+            {...register("password")}
+            name="password"
+            type="password"
+            autoComplete="current-password"
+          />
+        )}
         <Button type="submit">Connect</Button>
+        {hasShell && !isBundledShell && (
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={() => void Shell.disconnect()}>
+            Use a different server
+          </Button>
+        )}
       </Form>
     </Container>
   );
