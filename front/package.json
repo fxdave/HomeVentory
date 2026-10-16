@@ -9,9 +9,9 @@
   },
   "dependencies": {
     "@bcyesil/capacitor-plugin-printer": "^0.0.6",
-    "@capacitor/android": "^7.4.4",
-    "@capacitor/app": "^7.1.0",
-    "@capacitor/core": "^7.4.4",
+    "@capacitor/android": "^8.5.3",
+    "@capacitor/app": "^8.1.2",
+    "@capacitor/core": "^8.5.3",
     "@cuple/client": "^2.4.0",
     "@cuple/react": "^2.4.0",
     "@fontsource-variable/atkinson-hyperlegible-next": "^5.3.0",
@@ -33,7 +33,7 @@
     "unique-names-generator": "^4.7.1"
   },
   "devDependencies": {
-    "@capacitor/cli": "^7.4.4",
+    "@capacitor/cli": "^8.5.3",
     "@pandacss/dev": "^1.4.3",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",

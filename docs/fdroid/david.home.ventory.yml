@@ -1,0 +1,43 @@
+# Draft for https://gitlab.com/fdroid/fdroiddata -> metadata/david.home.ventory.yml
+# See docs/FDROID.md. Replace every <...> before submitting.
+Categories:
+  - Inventory
+License: GPL-3.0-only
+AuthorName: fxdave
+SourceCode: https://github.com/fxdave/HomeVentory
+IssueTracker: https://github.com/fxdave/HomeVentory/issues
+
+AutoName: HomeVentory
+
+RepoType: git
+Repo: https://github.com/fxdave/HomeVentory.git
+Binaries: https://github.com/fxdave/HomeVentory/releases/download/v%v/HomeVentory-%v.apk
+
+Builds:
+  - versionName: 1.0.0
+    versionCode: 1
+    commit: <full commit hash of tag v1.0.0>
+    subdir: front/android/app
+    sudo:
+      - apt-get update
+      - apt-get install -y openjdk-21-jdk-headless xz-utils
+      - update-java-alternatives -a
+      - curl -Lo /tmp/node.tar.xz https://nodejs.org/dist/v24.22.0/node-v24.22.0-linux-x64.tar.xz
+      - echo "cc2f601cee82d9a5a233302fe307abc600727035fd7d2c3a3571755989e95008  /tmp/node.tar.xz"
+        | sha256sum -c -
+      - tar xJf /tmp/node.tar.xz --strip-components=1 -C /usr/local
+    gradle:
+      - yes
+    build:
+      - cd ../..
+      - npm ci
+      - npx panda codegen
+      - npx vite build
+      - npx cap sync android
+
+AllowedAPKSigningKeys: <sha256 of your release certificate, lowercase, no colons>
+
+AutoUpdateMode: Version
+UpdateCheckMode: Tags ^v[0-9.]+$
+CurrentVersion: 1.0.0
+CurrentVersionCode: 1

@@ -56,6 +56,8 @@ make build-front-apk     # APK in front/android/app/build/outputs/apk/
 make install-front-apk   # or install on a connected device
 ```
 
+Release builds are reproducible; see [docs/FDROID.md](docs/FDROID.md).
+
 ## Development
 
 ```sh

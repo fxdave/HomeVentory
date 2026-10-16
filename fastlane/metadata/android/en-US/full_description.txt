@@ -1,0 +1,12 @@
+<p>HomeVentory is a self-hosted home inventory. Stick a QR code on a box, scan it, and see what's inside.</p>
+
+<p><b>Features</b></p>
+<ul>
+<li><b>Nested boxes</b>: boxes hold items and other boxes, as deep as you like.</li>
+<li><b>Search</b>: find any item and see its full location, e.g. <i>Basement / Shelf 1 / Brave Fox</i>.</li>
+<li><b>QR stickers</b>: print sticker sheets; scanning a new sticker creates its box.</li>
+<li><b>Move things</b>: cut a box and paste it elsewhere; its contents move with it.</li>
+<li><b>No accounts, no cloud</b>: your data stays on your own server.</li>
+</ul>
+
+<p><b>Requires a server.</b> This app is a client for the HomeVentory server, which you run yourself (one Node.js process and a SQLite file, Docker setup included). See the project page for setup instructions.</p>

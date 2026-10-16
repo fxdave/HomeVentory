@@ -1,0 +1,1 @@
+First F-Droid release. Updated to Capacitor 8 (Android 16 / API 36); the in-app QR scanner can now use the camera.

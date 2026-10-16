@@ -64,6 +64,19 @@ build-front-apk: build-front
 	npx cap sync android
 	cd android
 	./gradlew assembleDebug
+# Release APK, built the same way F-Droid builds it (see docs/FDROID.md).
+# Runs on the host (not in Docker): needs Node 24, JDK 21 and the Android SDK.
+# Signed when front/android/keystore.properties exists, unsigned otherwise.
+build-front-apk-release:
+	cd front
+	npm ci
+	npx panda codegen
+	npx vite build
+	npx cap sync android
+	cd android
+	./gradlew --no-daemon clean assembleRelease
+	ls app/build/outputs/apk/release/
+
 install-front-apk: build-front
 	cd front
 	npx cap sync android
