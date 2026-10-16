@@ -79,10 +79,10 @@ user's own server, not from a third party.
 
 ## First submission
 
-1. Do one release as above (`v1.0.0`).
+1. Do one release as above (`v1.0.1`).
 2. Fork https://gitlab.com/fdroid/fdroiddata and copy
    `docs/fdroid/david.home.ventory.yml` to `metadata/david.home.ventory.yml`.
-   Fill in the tag's commit hash (`git rev-parse v1.0.0`) and the fingerprint.
+   Fill in the tag's commit hash (`git rev-parse v1.0.1`) and the fingerprint.
 3. Optional, recommended: test it locally with fdroidserver
    (`fdroid readmeta`, `fdroid lint david.home.ventory`,
    `fdroid build -v -l david.home.ventory`).

@@ -45,11 +45,11 @@ export default function LoginPage() {
     if (isBundledShell) {
       const url = withScheme(data.target);
       localStorage.setItem(API_TARGET_KEY, url);
-      // Restarts the app on the server's own copy of the UI, which logs in.
-      Shell.connect({url}).catch(e =>
+      // Checks the server, then restarts the app on the server's own copy of
+      // the UI, which logs in. Returned so the button shows it's checking.
+      return Shell.connect({url}).catch(e =>
         setError("root", {message: e instanceof Error ? e.message : `${e}`}),
       );
-      return;
     }
     auth
       .login(data.target, data.password)
@@ -108,7 +108,9 @@ export default function LoginPage() {
             autoComplete="current-password"
           />
         )}
-        <Button type="submit">Connect</Button>
+        <Button type="submit" disabled={formState.isSubmitting}>
+          {formState.isSubmitting ? "Checking…" : "Connect"}
+        </Button>
         {hasShell && !isBundledShell && (
           <Button
             type="button"

@@ -1,0 +1,1 @@
+A wrong server address no longer leaves the app stuck: the app checks the address before connecting, and if the server becomes unreachable it offers "Try again" and "Use a different server".
