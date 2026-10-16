@@ -16,7 +16,7 @@ Binaries: https://github.com/fxdave/HomeVentory/releases/download/v%v/HomeVentor
 Builds:
   - versionName: 1.0.0
     versionCode: 1
-    commit: <full commit hash of tag v1.0.0>
+    commit: f61e49fe8e73c647c42d9839b8dbfe979cc35e4f
     subdir: front/android/app
     sudo:
       - apt-get update
