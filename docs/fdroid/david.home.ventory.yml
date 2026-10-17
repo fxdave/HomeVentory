@@ -14,9 +14,9 @@ Repo: https://github.com/fxdave/HomeVentory.git
 Binaries: https://github.com/fxdave/HomeVentory/releases/download/v%v/HomeVentory-%v.apk
 
 Builds:
-  - versionName: 1.0.1
-    versionCode: 2
-    commit: c1dd77aff62bd62723e87cef7407521e4c6b6328
+  - versionName: 1.0.2
+    versionCode: 3
+    commit: <full commit hash of tag v1.0.2>
     subdir: front/android/app
     sudo:
       - apt-get update
@@ -39,5 +39,5 @@ AllowedAPKSigningKeys: 715ad0e34e4ae75231cfaffc1c58570a92648f6667dddf61095c275bf
 
 AutoUpdateMode: Version
 UpdateCheckMode: Tags ^v[0-9.]+$
-CurrentVersion: 1.0.1
-CurrentVersionCode: 2
+CurrentVersion: 1.0.2
+CurrentVersionCode: 3

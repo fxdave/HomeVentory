@@ -1,0 +1,1 @@
+New app icon and splash screen, matching the HomeVentory design.
